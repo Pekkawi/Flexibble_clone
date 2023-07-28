@@ -1,6 +1,5 @@
-{
-  /* Home Page or children in the layout.tsx*/
-}
+/* Home Page or children in the layout.tsx*/
+
 const Home = () => {
   return (
     <section className="flex-start flex-col paddings mb-16">
