@@ -1,5 +1,5 @@
 {
-  /* Home Page */
+  /* Home Page or children in the layout.tsx*/
 }
 const Home = () => {
   return (
