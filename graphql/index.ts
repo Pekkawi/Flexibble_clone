@@ -7,7 +7,7 @@ export const getUserQuery = `
       avatarUrl
       description
       githubUrl
-      linkedinUrl
+      linkedInUrl
     }
   }
 `; //we want to get a user and query them by email
@@ -21,7 +21,7 @@ export const createUserMutation = `
         email 
         avatarUrl
         githubUrl
-        linkedinUrl
+        linkedInUrl
         id
       }
     }
