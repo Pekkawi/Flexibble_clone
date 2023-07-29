@@ -24,7 +24,7 @@ const Navbar = async () => {
         </ul>
       </div>
       <div className="flexCenter gap-4">
-        {session?.user ? ( //only if the user exists
+        {session?.user ? ( //access this block if the user exists
           <>
             {session?.user?.image && ( //display the image only if it exists
               <Image
@@ -35,6 +35,7 @@ const Navbar = async () => {
                 alt={session.user.name}
               />
             )}
+
             <Link href="/create-project">Share Your Work</Link>
           </>
         ) : (

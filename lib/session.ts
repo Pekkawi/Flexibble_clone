@@ -7,7 +7,8 @@ import { AdapterUser } from "@/utils/adapters";
 import jsonwebtoken from "jsonwebtoken";
 import { JWT } from "next-auth/jwt";
 import { use } from "react";
-import { SessionInterface } from "@/common.types";
+import { SessionInterface, UserProfile } from "@/common.types";
+import { createUser, getUser } from "./actions";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -27,12 +28,38 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session }) {
       //this gets triggered everytime a user visits the page
-      return session;
+      const email = session?.user?.email as string;
+      try {
+        const data = (await getUser(email)) as { user?: UserProfile };
+
+        const newSession = {
+          ...session,
+          user: {
+            ...session.user,
+            ...data.user,
+          }, // With the new session we are moving from google session -> our own session
+          // since our own session has more variables that need to be filled
+        };
+        return newSession;
+      } catch (error) {
+        console.log("Error Retrieving User Data", error);
+        return session;
+      }
     },
     async signIn({ user }: { user: AdapterUser | User }) {
       try {
         //get user if they exist
+        const userExists = (await getUser(user?.email as string)) as {
+          user?: UserProfile;
+        }; //you get the user by passing the email as a string | the output will be as a UserProfile
 
+        if (!userExists.user) {
+          await createUser(
+            user.name as string,
+            user.email as string,
+            user.image as string
+          );
+        }
         //if they don't exist , create them
 
         return true;
